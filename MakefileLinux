@@ -4,8 +4,7 @@ CCC=g++
 CXX=g++
 
 # Constants
-MODULE_HEADERS_DIR = "/home/mike/repo/module_headers_newapi"
-
+MODULE_HEADERS_DIR = /var/lib/jenkins/workspace/module_headers/
 INCLUDE_DIR_FLAGS = -I${MODULE_HEADERS_DIR}
 
 FLAGS_MUTUAL = -Wall -m32 -std=c++11 ${INCLUDE_DIR_FLAGS} -MMD -MP -MF "${OBJECTDIR}/$@.d"
@@ -21,7 +20,6 @@ release: OBJECTDIR = build/Release
 release: FLAGS = -O3 ${FLAGS_MUTUAL}
 release: FILENAME_FIX = release
 release: clean module
-
 
 clean:
 	@echo "-------------------------" 

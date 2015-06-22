@@ -2,9 +2,11 @@
 CC=g++
 CCC=g++
 CXX=g++
+RM = "C:\msys\1.0\bin\rm.exe"
+MKDIR = "C:\msys\1.0\bin\mkdir.exe"
 
 # Constants
-MODULE_HEADERS_DIR = "G:/TempRepo/module_headers"
+MODULE_HEADERS_DIR = "C:\Program Files (x86)\Jenkins\workspace\module_headers"
 
 INCLUDE_DIR_FLAGS = -I${MODULE_HEADERS_DIR}
 
@@ -25,17 +27,17 @@ release: clean module
 
 clean:
 	@echo "-------------------------" 
-	rm -rf ${OBJECTDIR}
+	${RM} -rf ${OBJECTDIR}
 
 
 test_control_module.o:  test_control_module.cpp
 	@echo "-------------------------" 
-	mkdir -p ${OBJECTDIR}
-	rm -f "${OBJECTDIR}/$@.d"
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} -f "${OBJECTDIR}/$@.d"
 	$(COMPILE.cc) $(FLAGS) -o ${OBJECTDIR}/test_control_module.o test_control_module.cpp
 
 
 module: test_control_module.o
 	@echo "-------------------------" 
-	mkdir -p ${OBJECTDIR}
+	${MKDIR} -p ${OBJECTDIR}
 	${LINK.cc} -m32 -shared -o ${OBJECTDIR}/test_module_$(FILENAME_FIX).dll ${OBJECTDIR}/test_control_module.o

@@ -11,7 +11,7 @@
 	#include <windows.h>
 #else
 	#include <unistd.h>
-	
+	#include <stdarg.h>
 #endif	
 
 #include "module.h"

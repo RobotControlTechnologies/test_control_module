@@ -5,7 +5,7 @@
 class TestControlModule : public ControlModule {
 	AxisData **test_axis;
 	//unsigned int COUNT_AXIS;
-	colorPrintf_t *colorPrintf;
+	colorPrintfVA_t *colorPrintf_p;
 
 	//std::map<std::string, system_value> axis_names;
 
@@ -35,6 +35,8 @@ public:
 	//destructor
 	void destroy();
 	~TestControlModule() {}
+
+	void colorPrintf(ConsoleColor colors, const char *mask, ...);
 };
 
 #endif	/* TEST_CONTROL_MODULE_H */

@@ -4,17 +4,14 @@
 
 class TestControlModule : public ControlModule {
 	AxisData **test_axis;
-	//unsigned int COUNT_AXIS;
-	colorPrintfVA_t *colorPrintf_p;
-
-	//std::map<std::string, system_value> axis_names;
+	colorPrintfModuleVA_t *colorPrintf_p;
 
 public:
 	TestControlModule(){};
 
 	//init
 	const char *getUID();
-	void prepare(colorPrintf_t *colorPrintf_p, colorPrintfVA_t *colorPrintfVA_p);
+	void prepare(colorPrintfModule_t *colorPrintf_p, colorPrintfModuleVA_t *colorPrintfVA_p);
 
 	//compiler only
 	AxisData** getAxis(unsigned int *count_axis);

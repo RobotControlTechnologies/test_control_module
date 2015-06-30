@@ -60,7 +60,7 @@ void TestControlModule::execute(sendAxisState_t sendAxisState) {
 	}
 }
 
-void TestControlModule::prepare(colorPrintf_t *colorPrintf_p, colorPrintfVA_t *colorPrintfVA_p) {
+void TestControlModule::prepare(colorPrintfModule_t *colorPrintf_p, colorPrintfModuleVA_t *colorPrintfVA_p) {
 	this->colorPrintf_p = colorPrintfVA_p;
 
 	int axis_id = 0;

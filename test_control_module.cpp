@@ -42,13 +42,13 @@ void TestControlModule::execute(sendAxisState_t sendAxisState) {
 	for (int i = 0; i < 10; ++i){
 
 		colorPrintf(ConsoleColor(ConsoleColor::dark_yellow), "x = %f\n", x_values[i]);
-		(*sendAxisState)(1, x_values[i]);
+		(*sendAxisState)(this, 1, x_values[i]);
 
 		colorPrintf(ConsoleColor(ConsoleColor::dark_yellow), "y = %f\n", y_values[i]);
-		(*sendAxisState)(2, y_values[i]);
+		(*sendAxisState)(this, 2, y_values[i]);
 		
 		colorPrintf(ConsoleColor(ConsoleColor::dark_yellow), "z = %f\n", z_values[i]);
-		(*sendAxisState)(3, z_values[i]);
+		(*sendAxisState)(this, 3, z_values[i]);
 		
 
 #ifdef _WIN32

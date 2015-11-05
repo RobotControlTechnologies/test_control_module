@@ -3,7 +3,8 @@ CC=g++
 CCC=g++
 CXX=g++
 
-# Constants
+BUILD_NUMBER = 0
+
 # Constants
 .PHONY: debug
 debug_000 release_000: MODULE_HEADERS_DIR = "/var/lib/jenkins/workspace/module_headers/000"

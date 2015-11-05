@@ -19,6 +19,7 @@
 
 #include "test_control_module.h"
 
+#define UID "RCT_test_control_module_v100"
 unsigned int COUNT_AXIS = 3;
 
 std::vector<variable_value> x_values = {100,  -30.1, -2.58, 48.9, 99.01,
@@ -36,10 +37,27 @@ std::vector<variable_value> z_values = {4.56, 0,    78.9, 100, 50,
   test_axis[axis_id]->name = AXIS_NAME;                    \
   ++axis_id;
 
-#define DEFINE_ALL_AXIS         \
-  ADD_TEST_AXIS("X", 100, -100) \
-  ADD_TEST_AXIS("Y", 1, 0)      \
+TestControlModule::TestControlModule() {
+#ifndef CONTROL_MODULE_H_000
+  mi = new ModuleInfo;
+  mi->uid = UID;
+  mi->mode = ModuleInfo::Modes::PROD;
+  mi->version = BUILD_NUMBER;
+  mi->digest = NULL;
+#endif
+
+  int axis_id = 0;
+  test_axis = new AxisData *[COUNT_AXIS];
+  ADD_TEST_AXIS("X", 100, -100)
+  ADD_TEST_AXIS("Y", 1, 0)
   ADD_TEST_AXIS("Z", 100, 0)
+}
+
+#ifdef CONTROL_MODULE_H_000
+const char *TestControlModule::getUID() { return UID; }
+#else
+const struct ModuleInfo &TestControlModule::getModuleInfo() { return *mi; }
+#endif
 
 void TestControlModule::execute(sendAxisState_t sendAxisState) {
   for (int i = 0; i < 10; ++i) {
@@ -66,10 +84,6 @@ void TestControlModule::execute(sendAxisState_t sendAxisState) {
 void TestControlModule::prepare(colorPrintfModule_t *colorPrintf_p,
                                 colorPrintfModuleVA_t *colorPrintfVA_p) {
   this->colorPrintf_p = colorPrintfVA_p;
-
-  int axis_id = 0;
-  test_axis = new AxisData *[COUNT_AXIS];
-  DEFINE_ALL_AXIS
 }
 
 void TestControlModule::colorPrintf(ConsoleColor colors, const char *mask,
@@ -82,14 +96,16 @@ void TestControlModule::colorPrintf(ConsoleColor colors, const char *mask,
 
 int TestControlModule::init() { return 0; }
 
-const char *TestControlModule::getUID() { return "Test control module 1"; }
-
 AxisData **TestControlModule::getAxis(unsigned int *count_axis) {
   (*count_axis) = COUNT_AXIS;
   return test_axis;
 }
 
 void TestControlModule::destroy() {
+#ifndef CONTROL_MODULE_H_000
+  delete mi;
+#endif
+
   for (unsigned int j = 0; j < COUNT_AXIS; ++j) {
     delete test_axis[j];
   }
@@ -107,6 +123,12 @@ int TestControlModule::startProgram(int uniq_index) { return 0; }
 void TestControlModule::readPC(void *buffer, unsigned int buffer_length) {}
 
 int TestControlModule::endProgram(int uniq_index) { return 0; }
+
+#ifndef CONTROL_MODULE_H_000
+PREFIX_FUNC_DLL unsigned short getControlModuleApiVersion() {
+  return CONTROL_MODULE_API_VERSION;
+};
+#endif
 
 PREFIX_FUNC_DLL ControlModule *getControlModuleObject() {
   return new TestControlModule();

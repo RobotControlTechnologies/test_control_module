@@ -5,11 +5,19 @@ class TestControlModule : public ControlModule {
   AxisData **test_axis;
   colorPrintfModuleVA_t *colorPrintf_p;
 
- public:
-  TestControlModule(){};
+#ifndef CONTROL_MODULE_H_000
+  ModuleInfo *mi;
+#endif
 
-  // init
+ public:
+  TestControlModule();
+
+// init
+#ifdef CONTROL_MODULE_H_000
   const char *getUID();
+#else
+  const struct ModuleInfo &getModuleInfo();
+#endif
   void prepare(colorPrintfModule_t *colorPrintf_p,
                colorPrintfModuleVA_t *colorPrintfVA_p);
 

@@ -19,7 +19,7 @@
 
 #include "test_control_module.h"
 
-#define UID "RCT_test_control_module_v100"
+#define IID "RCT.Test_control_module_v107"
 unsigned int COUNT_AXIS = 3;
 
 std::vector<variable_value> x_values = {100,  -30.1, -2.58, 48.9, 99.01,
@@ -40,7 +40,7 @@ std::vector<variable_value> z_values = {4.56, 0,    78.9, 100, 50,
 TestControlModule::TestControlModule() {
 #ifndef CONTROL_MODULE_H_000
   mi = new ModuleInfo;
-  mi->uid = UID;
+  mi->uid = IID;
   mi->mode = ModuleInfo::Modes::PROD;
   mi->version = BUILD_NUMBER;
   mi->digest = NULL;
@@ -54,7 +54,7 @@ TestControlModule::TestControlModule() {
 }
 
 #ifdef CONTROL_MODULE_H_000
-const char *TestControlModule::getUID() { return UID; }
+const char *TestControlModule::getUID() { return IID; }
 #else
 const struct ModuleInfo &TestControlModule::getModuleInfo() { return *mi; }
 #endif

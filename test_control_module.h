@@ -5,7 +5,7 @@ class TestControlModule : public ControlModule {
   AxisData **test_axis;
   colorPrintfModuleVA_t *colorPrintf_p;
 
-#ifndef CONTROL_MODULE_H_000
+#if MODULE_API_VERSION > 000
   ModuleInfo *mi;
 #endif
 
@@ -13,10 +13,10 @@ class TestControlModule : public ControlModule {
   TestControlModule();
 
 // init
-#ifdef CONTROL_MODULE_H_000
-  const char *getUID();
-#else
+#if MODULE_API_VERSION > 000
   const struct ModuleInfo &getModuleInfo();
+#else
+  const char *getUID();
 #endif
   void prepare(colorPrintfModule_t *colorPrintf_p,
                colorPrintfModuleVA_t *colorPrintfVA_p);

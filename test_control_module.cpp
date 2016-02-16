@@ -1,8 +1,3 @@
-
-#ifdef _WIN32
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <vector>
@@ -38,7 +33,7 @@ std::vector<variable_value> z_values = {4.56, 0,    78.9, 100, 50,
   ++axis_id;
 
 TestControlModule::TestControlModule() {
-#ifndef CONTROL_MODULE_H_000
+#if MODULE_API_VERSION > 000
   mi = new ModuleInfo;
   mi->uid = IID;
   mi->mode = ModuleInfo::Modes::PROD;
@@ -53,10 +48,10 @@ TestControlModule::TestControlModule() {
   ADD_TEST_AXIS("Z", 100, 0)
 }
 
-#ifdef CONTROL_MODULE_H_000
-const char *TestControlModule::getUID() { return IID; }
-#else
+#if MODULE_API_VERSION > 000
 const struct ModuleInfo &TestControlModule::getModuleInfo() { return *mi; }
+#else
+const char *TestControlModule::getUID() { return IID; }
 #endif
 
 void TestControlModule::execute(sendAxisState_t sendAxisState) {
@@ -124,9 +119,9 @@ void TestControlModule::readPC(void *buffer, unsigned int buffer_length) {}
 
 int TestControlModule::endProgram(int uniq_index) { return 0; }
 
-#ifndef CONTROL_MODULE_H_000
+#if MODULE_API_VERSION > 000
 PREFIX_FUNC_DLL unsigned short getControlModuleApiVersion() {
-  return CONTROL_MODULE_API_VERSION;
+  return MODULE_API_VERSION;
 };
 #endif
 

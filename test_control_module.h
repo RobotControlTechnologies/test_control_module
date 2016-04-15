@@ -30,12 +30,17 @@ class TestControlModule : public ControlModule {
   void execute(sendAxisState_t sendAxisState);
   void final(){};
 
+#if MODULE_API_VERSION > 100
   // intepreter - program & lib
-  void readPC(void *buffer, unsigned int buffer_length);
-
+  int readPC(int pc_index, void *buffer, unsigned int buffer_length);
   // intepreter - program
-  int startProgram(int uniq_index);
-  int endProgram(int uniq_index);
+  int startProgram(int run_index, int pc_index);
+#else
+  void readPC(void *buffer, unsigned int buffer_length) {};
+  int startProgram(int run_index);
+#endif
+
+  int endProgram(int run_index);
 
   // destructor
   void destroy();

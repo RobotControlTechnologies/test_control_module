@@ -27,7 +27,11 @@ class TestControlModule : public ControlModule {
 
   // intepreter - devices
   int init();
+#if MODULE_API_VERSION > 100  
+  void execute(int run_index, sendAxisState_t sendAxisState);
+#else
   void execute(sendAxisState_t sendAxisState);
+#endif
   void final(){};
 
 #if MODULE_API_VERSION > 100

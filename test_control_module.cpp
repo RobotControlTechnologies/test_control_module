@@ -54,7 +54,11 @@ const struct ModuleInfo &TestControlModule::getModuleInfo() { return *mi; }
 const char *TestControlModule::getUID() { return IID; }
 #endif
 
+#if MODULE_API_VERSION > 100  
+void TestControlModule::execute(int run_index, sendAxisState_t sendAxisState) {
+#else
 void TestControlModule::execute(sendAxisState_t sendAxisState) {
+#endif
   for (int i = 0; i < 10; ++i) {
     colorPrintf(ConsoleColor(ConsoleColor::dark_yellow), "x = %f\n",
                 x_values[i]);

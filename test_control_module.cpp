@@ -1,8 +1,3 @@
-
-#ifdef _WIN32
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <vector>
@@ -19,7 +14,7 @@
 
 #include "test_control_module.h"
 
-#define UID "RCT_test_control_module_v100"
+#define IID "RCT.Test_control_module_v107"
 unsigned int COUNT_AXIS = 3;
 
 std::vector<variable_value> x_values = {100,  -30.1, -2.58, 48.9, 99.01,
@@ -38,9 +33,9 @@ std::vector<variable_value> z_values = {4.56, 0,    78.9, 100, 50,
   ++axis_id;
 
 TestControlModule::TestControlModule() {
-#ifndef CONTROL_MODULE_H_000
+#if MODULE_API_VERSION > 000
   mi = new ModuleInfo;
-  mi->uid = UID;
+  mi->uid = IID;
   mi->mode = ModuleInfo::Modes::PROD;
   mi->version = BUILD_NUMBER;
   mi->digest = NULL;
@@ -53,13 +48,17 @@ TestControlModule::TestControlModule() {
   ADD_TEST_AXIS("Z", 100, 0)
 }
 
-#ifdef CONTROL_MODULE_H_000
-const char *TestControlModule::getUID() { return UID; }
-#else
+#if MODULE_API_VERSION > 000
 const struct ModuleInfo &TestControlModule::getModuleInfo() { return *mi; }
+#else
+const char *TestControlModule::getUID() { return IID; }
 #endif
 
+#if MODULE_API_VERSION > 100  
+void TestControlModule::execute(int run_index, sendAxisState_t sendAxisState) {
+#else
 void TestControlModule::execute(sendAxisState_t sendAxisState) {
+#endif
   for (int i = 0; i < 10; ++i) {
     colorPrintf(ConsoleColor(ConsoleColor::dark_yellow), "x = %f\n",
                 x_values[i]);
@@ -118,15 +117,18 @@ void *TestControlModule::writePC(unsigned int *buffer_length) {
   return NULL;
 }
 
-int TestControlModule::startProgram(int uniq_index) { return 0; }
+#if MODULE_API_VERSION > 100
+int TestControlModule::readPC(int pc_index, void *buffer, unsigned int buffer_length) { return 0; };
+int TestControlModule::startProgram(int run_index, int pc_index) { return 0; }
+#else
+int TestControlModule::startProgram(int run_index) { return 0; }
+#endif
 
-void TestControlModule::readPC(void *buffer, unsigned int buffer_length) {}
+int TestControlModule::endProgram(int run_index) { return 0; }
 
-int TestControlModule::endProgram(int uniq_index) { return 0; }
-
-#ifndef CONTROL_MODULE_H_000
+#if MODULE_API_VERSION > 000
 PREFIX_FUNC_DLL unsigned short getControlModuleApiVersion() {
-  return CONTROL_MODULE_API_VERSION;
+  return MODULE_API_VERSION;
 };
 #endif
 

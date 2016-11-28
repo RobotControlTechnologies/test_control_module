@@ -118,7 +118,7 @@ void *TestControlModule::writePC(unsigned int *buffer_length) {
 }
 
 #if MODULE_API_VERSION > 100
-int TestControlModule::readPC(int pc_index, void *buffer, unsigned int buffer_length) { return 0; };
+int TestControlModule::readPC(int pc_index, void *buffer, unsigned int buffer_length) { return 0; }
 int TestControlModule::startProgram(int run_index, int pc_index) { return 0; }
 #else
 int TestControlModule::startProgram(int run_index) { return 0; }
@@ -129,7 +129,7 @@ int TestControlModule::endProgram(int run_index) { return 0; }
 #if MODULE_API_VERSION > 000
 PREFIX_FUNC_DLL unsigned short getControlModuleApiVersion() {
   return MODULE_API_VERSION;
-};
+}
 #endif
 
 PREFIX_FUNC_DLL ControlModule *getControlModuleObject() {

@@ -93,7 +93,12 @@ void TestControlModule::colorPrintf(ConsoleColor colors, const char *mask,
   va_end(args);
 }
 
-int TestControlModule::init() { return 0; }
+#if MODULE_API_VERSION == 102
+  int TestControlModule::init(initCallback_t& initCallback)
+#else
+  int TestControlModule::init()
+#endif
+{ return 0; }
 
 AxisData **TestControlModule::getAxis(unsigned int *count_axis) {
   (*count_axis) = COUNT_AXIS;

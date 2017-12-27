@@ -26,7 +26,11 @@ class TestControlModule : public ControlModule {
   void *writePC(unsigned int *buffer_length);
 
   // intepreter - devices
-  int init();
+  #if MODULE_API_VERSION == 102
+    virtual int init(initCallback_t& initCallback);
+  #else
+    int init();
+  #endif
 #if MODULE_API_VERSION > 100  
   void execute(int run_index, sendAxisState_t sendAxisState);
 #else
